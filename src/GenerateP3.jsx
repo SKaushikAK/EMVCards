@@ -4,10 +4,11 @@ import { useLocation } from "react-router-dom";
 
 const GenerateP3Page = () => {
   const location = useLocation();
-  const { mainItem } = location.state || {};
-
+  const { mainItem, details } = location.state || {};
+  console.log(mainItem, details);
+  
   React.useEffect(() => {
-    const main_data = axios.get("/generateP3");
+    const request = axios.post("/generateP3", mainItem);
     
   })
   

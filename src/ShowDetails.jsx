@@ -12,6 +12,7 @@ const ShowDetails = ({navigate}) => {
         const response = await axios.get("/api_details");
         const fetchedData = response.data.message;
 
+
         const updatedData = fetchedData.map((item) => ({
           ...item,
           isOpen: false,
@@ -20,6 +21,7 @@ const ShowDetails = ({navigate}) => {
             isOpen: false,
           })),
         }));
+        console.log("Updated ",fetchedData)
         setData(updatedData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -54,9 +56,9 @@ const ShowDetails = ({navigate}) => {
     );
   };
 
-  const handleGenerateP3 = (mainItem) =>{
+  const handleGenerateP3 = (mainItem, details) =>{
 
-  navigate("/show_details/P3", { state: { mainItem } })
+  navigate("/show_details/P3", { state: { mainItem , details} })
 }
 
   if (!data.length) return <div>Loading...</div>;
@@ -131,7 +133,7 @@ const ShowDetails = ({navigate}) => {
 
               {/* Generate P3 Button */}
               <button
-                onClick={() => handleGenerateP3(mainItem)}
+                onClick={() => handleGenerateP3(mainItem, mainItem.details)}
                 style={{
                   marginTop: "10px",
                   padding: "10px 20px",

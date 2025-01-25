@@ -15,8 +15,8 @@ const AddButton = ({navigate, handleRevert}) => {
         data.batch_no = batch;
 
         try {
-            // const response = await axios.post('/add_details/api', data);
-            // localStorage.setItem("card_id", JSON.stringify(response.data.message));
+            const response = await axios.post('/add_details/api', data);
+            localStorage.setItem("card_id", JSON.stringify(response.data.message));
             navigate('/add_details/extra_details'); // Navigate to next page if needed
         } catch (error) {
             alert('Error submitting data: ' + error.response?.data?.error || error.message);

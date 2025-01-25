@@ -32,7 +32,7 @@ def create_database():
     cur = conn.cursor()
 
     # Define the name of the new database you want to create
-    new_database_name = "EMVcards"
+    new_database_name = "emvcards"
 
     e = True
     # Create a new database
@@ -389,17 +389,17 @@ def get_datas():
     dict1 = cur.fetchall()
     
     data1 = [dict(x) for x in dict1 ]
-    
+
     cur.execute(query2)
     dict2 = cur.fetchall()
     data2 = [dict(x) for x in dict2]
-    
+
     cur.execute(query3)
     dict3 = cur.fetchall()
     data3 = [dict(x) for x in dict3]
-    
+
     main_result = []
-    print("data1", data1)
+    
     for i in range(len(data1)):
         account = {"main": data1[i]}
         l = []
@@ -407,18 +407,13 @@ def get_datas():
             options = []
             if data2[j]["card_id"] == data1[i]["id"]:
                 options.append(data2[j])
-            for k in range(len(data3)):
-                if data3[k]["account_id"] == data2[j]["id"]:
-                    options.append(data3[k])
-                    break
-            l.append(options)
+                for k in range(len(data3)):
+                    if data3[k]["account_id"] == data2[j]["id"]:
+                        options.append(data3[k])
+                        break
+                l.append(options)
         account["details"] = l
         main_result.append(account)
-    
-    print("main result",main_result)
-    
-    
-    final = {"main": data1, "accounts" : data2, "options" : data3}
     
     return main_result
 
