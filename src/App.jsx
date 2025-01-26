@@ -31,7 +31,6 @@ const App = () => {
     <Routes>
       <Route path="/" element={<HomePage selectedBatch={selectedBatch}
                                 handleBatchChange={handleBatchChange}
-                                batches={batches} 
                                 navigate = {navigate}/>} />
 
       <Route path="/add_details" element={<AddButton

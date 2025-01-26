@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import os
 from database  import *
-
+from P3 import *
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='../dist', static_url_path='')
@@ -69,8 +69,15 @@ def show_details():
 
 @app.route("/generateP3", methods = ["POST"])
 def generateP():
-    data = request.json
+    data = request.json["main"]
     print("data",data)
+    card_number = data["card_number"],
+    expiry_date = data["expiry_date"],
+    embossed_name = data["embossed_name"]
+    sample1 = "0111005414000"
+    cardlast = card_number[-4:]
+
+    format_embossing([card_number,expiry_date,embossed_name,sample1, cardlast])
     
     return jsonify(data), 200
 
