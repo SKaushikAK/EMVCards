@@ -1,9 +1,12 @@
 import { useState } from "react";
 import "./css/AddButton2.css";
 import axios from'axios';
+import Header from "./Header";
+import SideBar from "./SideBar";
+import Footer from "./Footer";
 
 
-const AddButton2 = (navigate) => {
+const AddButton2 = ({handleRevert}) => {
   const [formData, setFormData] = useState([
     {
       accountNo: "",
@@ -121,6 +124,9 @@ const AddButton2 = (navigate) => {
   }
 
   return (
+    <>
+    <Header />
+    <SideBar handleRevert={handleRevert} side = {"3"}/>
     <div className="container">
       <h3>Card Record - Page 2</h3>
       <form onSubmit={handleSubmit}>
@@ -300,6 +306,8 @@ const AddButton2 = (navigate) => {
         </div>
       </form>
     </div>
+    <Footer />
+    </>
   );
 };
 

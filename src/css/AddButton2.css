@@ -5,8 +5,7 @@
     margin: 0 auto;
     box-sizing: border-box;
     width: 100%;
-    max-width: 1920px;
-    /* Adjust based on your maximum screen size */
+    max-width: 1000px;
     overflow: hidden;
 }
 
@@ -90,6 +89,8 @@ html {
     height: 100%;
     display: flex;
     flex-direction: column;
+    margin-left : 420px;
+    margin-top: 75px;
 }
 
 form {

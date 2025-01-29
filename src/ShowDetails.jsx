@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import "./css/ShowDetails.css"
 import axios from "axios";
 import Options from "./Options";
+import Header from "./Header";
+import Footer from "./Footer";
+import SideSearch from "./SideSearch";
 
 const ShowDetails = ({navigate}) => {
   const [data, setData] = useState([]);
@@ -30,6 +33,14 @@ const ShowDetails = ({navigate}) => {
 
     fetchData();
   }, []);
+
+
+  useEffect( () => {
+    const track = async () => {
+    const t = await axios.post("/track_data");
+    }
+    track();
+  }, [])
 
   const toggleMainDropdown = (index) => {
     setData((prevData) =>
@@ -64,7 +75,10 @@ const ShowDetails = ({navigate}) => {
   if (!data.length) return <div>Loading...</div>;
 
   return (
-    <div>
+    <>
+    <Header />
+    <SideSearch navigate = {navigate}/>
+    <div className="main-container">
       <h1>Show Details</h1>
       {data.map((mainItem, mainIndex) => (
         <div key={mainIndex} style={{ marginBottom: "20px", border: "1px solid #ccc", padding: "10px" }}>
@@ -72,7 +86,7 @@ const ShowDetails = ({navigate}) => {
             onClick={() => toggleMainDropdown(mainIndex)}
             style={{ cursor: "pointer", color: "#4CAF50" }}
           >
-            Main {mainIndex + 1} {mainItem.isOpen ? "▲" : "▼"}
+            {mainItem.main.card_number} : {mainItem.main.embossed_name} {mainItem.isOpen ? "▲" : "▼"} 
           </h3>
 
           {mainItem.isOpen && (
@@ -151,6 +165,8 @@ const ShowDetails = ({navigate}) => {
         </div>
       ))}
     </div>
+    <Footer />
+    </>
   );
 };
 

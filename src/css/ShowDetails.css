@@ -6,6 +6,13 @@ body {
     padding: 0;
     overflow-y: auto;
 }
+.main-container{
+    margin-top: 50px;
+    padding: 30px;
+    margin-left: 400px;
+    height: 800px;
+    
+}
 
 /* Navbar Styles */
 .navbar {

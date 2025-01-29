@@ -7,6 +7,7 @@ const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
   const handleNavigate = (what) => {
     if (selectedBatch === "") {
       alert ("Please select te batch number first...")
+      
     } 
     else{
       if (what === "add"){
@@ -16,8 +17,6 @@ const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
       }
       }
     }
-    
-  
 
   return (
     <>
@@ -70,6 +69,6 @@ const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
       </footer>
     </>
   );
-};
+}; 
 
 export default HomePage;

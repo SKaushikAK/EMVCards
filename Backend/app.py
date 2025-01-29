@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 from database  import *
 from P3 import *
+import requests
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='../dist', static_url_path='')
@@ -80,6 +81,15 @@ def generateP():
     format_embossing([card_number,expiry_date,embossed_name,sample1, cardlast])
     
     return jsonify(data), 200
+
+
+@app.route("/track_data", methods = ["POST"])
+def track_data():
+    data = request.json
+    api_url = 'https://neapay.com/online-tools/card-track1-track2-generator'
+    response = requests.get(api_url)
+    print(response)
+    return
 
 # Run Flask app
 if __name__ == '__main__':

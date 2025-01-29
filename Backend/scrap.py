@@ -1,0 +1,66 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+import time
+from selenium.webdriver.chrome.options import Options
+
+# Set up Chrome options
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Run in headless mode
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+
+
+driver = webdriver.Chrome(options = chrome_options)
+
+
+
+def scrap_track (data):
+# Open the website
+    driver.get("https://neapay.com/online-tools/card-track1-track2-generator.html")
+
+    wait = WebDriverWait(driver, 10)
+
+    # Fill in the fields using explicit waits
+    fields = {
+        "textBoxPan":data["card_number"],  # Card number
+        "textBoxName": data["name"],        # Cardholder name
+        "textBoxExpDate": data["expiry_date"],           # Expiration date
+        "textBoxSvcCode": data["service_code"],        # Service code
+        "textBoxPvv": data["PVV"]  ,             # PIN
+        "textBoxCvv" : data["CVV"],
+        "textBoxDiscData" : data["Discretionary"]
+    }
+
+    for field_id, value in fields.items():
+        element = wait.until(EC.presence_of_element_located((By.ID, field_id)))
+        element.clear()
+        element.send_keys(value)
+
+    generate_button = wait.until(EC.presence_of_element_located(
+        (By.XPATH, "//button[text()='Generate Track 1 and Track 2']")))
+
+    # Scroll into view and ensure it's clickable
+    driver.execute_script("arguments[0].scrollIntoView(true);", generate_button)
+
+    try:
+        wait.until(EC.element_to_be_clickable(
+            (By.XPATH, "//button[text()='Generate Track 1 and Track 2']"))).click()
+    except:
+        driver.execute_script("arguments[0].click();", generate_button)
+
+    track1_visa = wait.until(EC.presence_of_element_located(
+        (By.ID, "textBoxTrack1m"))).get_attribute("value")
+    track2_visa = wait.until(EC.presence_of_element_located(
+        (By.ID, "textBoxTrack2m"))).get_attribute("value")
+
+    print("Track1 Visa:", track1_visa)
+    print("Track2 Visa:", track2_visa)
+
+    return track1_visa, track2_visa
+
+if __name__ == "__main__":
+    print("Done")
+
