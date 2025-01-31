@@ -21,6 +21,7 @@ def serve():
 @app.route('/add_details')
 @app.route('/show_details')
 @app.route('/add_details/extra_details')
+@app.route("/show_details/P3")
 def static_files():
     return send_from_directory(app.static_folder, 'index.html')
 
@@ -162,6 +163,12 @@ def show_details():
     
     details = get_details(batch, created)
     return jsonify(details), 200
+
+
+@app.route("/generateP3", methods = ["GET"])
+def generate_p3():
+    
+    return jsonify({"message" : True})
 
 # Run Flask app
 if __name__ == '__main__':

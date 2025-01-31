@@ -40,19 +40,21 @@ def format_embossing_data_with_lines_included(data_dict):
     return result
 
 
+if __name__ == "__main__":
+    
 # Example usage:
-embossing_details = {
-    "Line1": "90123456 SMITH/J",
-    "Line2": "MR TEST CARD",
-    "Line3": "My Corp Mr J Smith",
-    "Line4": "123 Elm St Suite",
-    "Line5": "456 Cityville, State, Country."
-}
+    embossing_details = {
+        "Line1": "90123456 SMITH/J",
+        "Line2": "MR TEST CARD",
+        "Line3": "My Corp Mr J Smith",
+        "Line4": "123 Elm St Suite",
+        "Line5": "456 Cityville, State, Country."
+    }
 
-# Generate the formatted embossing data with lines included
-formatted_embossing_data = format_embossing_data_with_lines_included(embossing_details)
-print(formatted_embossing_data)
+    # Generate the formatted embossing data with lines included
+    formatted_embossing_data = format_embossing_data_with_lines_included(embossing_details)
+    print(formatted_embossing_data)
 
-# Save to a file
-with open("embossing_data_with_lines_included.txt", "w") as file:
-    file.write(formatted_embossing_data)
+    # Save to a file
+    with open("embossing_data_with_lines_included.txt", "w") as file:
+        file.write(formatted_embossing_data)

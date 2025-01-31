@@ -54,9 +54,9 @@ const ShowDetails = ({navigate}) => {
     );
   };
 
-  const handleGenerateP3 = (mainItem) =>{
+  const handleGenerateP3 = (details, mainItem) =>{
 
-  navigate("/show_details/P3", { state: { mainItem } })
+  navigate("/show_details/P3", { state: { mainItem, details } })
 }
 
   if (!data.length) return <div>Loading...</div>;
@@ -131,7 +131,7 @@ const ShowDetails = ({navigate}) => {
 
               {/* Generate P3 Button */}
               <button
-                onClick={() => handleGenerateP3(mainItem)}
+                onClick={() => handleGenerateP3(mainItem.details, mainItem)}
                 style={{
                   marginTop: "10px",
                   padding: "10px 20px",
