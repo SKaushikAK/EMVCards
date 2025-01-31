@@ -1,4 +1,7 @@
-def format_embossing(data_dict):
+from encrypt import *
+from scrap import scrap_track
+
+def emboss_data(data):
     """
     Formats embossing data with line labels included on the same row,
     separated by spaces, and displayed in a hex-dump style layout.
@@ -12,16 +15,22 @@ def format_embossing(data_dict):
         str: Hex-dump style formatted embossing data with line labels included inline.
     """
     embossing_details = {
-        "Line1": "90123456 SMITH/J",
-        "Line2": "MR TEST CARD",
-        "Line3": "My Corp Mr J Smith",
-        "Line4": "123 Elm St Suite",
-        "Line5": "456 Cityville, State, Country."
+        "Line1": data[0][:4]+ ' ' + data[0][4:8] + " " +data[0] [ 8: 12] + " " + data[0][ 12: 16],
+        "Line2": data[1],
+        "Line3": data[2],
+        "Line4": data[3],
+        "Line5": data[4][:4]
     }
+    
+    
+    full_content = "$"+" ".join(f"{line_label} {line_content}" for line_label, line_content in embossing_details.items()) + r'"'
+    return full_content
+
+def encode(full_content):
+
+    full_content = full_content.encode("utf-8")
     result = ""
     offset = 0  
-    
-    full_content = " ".join(f"{line_label} {line_content}" for line_label, line_content in data_dict.items()).encode("utf-8")
 
     for i in range(0, len(full_content), 16):
 
@@ -36,6 +45,13 @@ def format_embossing(data_dict):
         offset += 16
 
     return result
+
+def tracks(data):
+    pin_verification = generate_pin()
+    cvv_pin = generate_cvv()
+    disc_data = generate_disc()
+    track_data = scrap_track(data + [pin_verification, cvv_pin, disc_data])
+    return track_data
 
 
 if __name__ == "__main__":

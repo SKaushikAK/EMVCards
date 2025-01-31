@@ -25,13 +25,13 @@ def scrap_track (data):
 
     # Fill in the fields using explicit waits
     fields = {
-        "textBoxPan":data["card_number"],  # Card number
-        "textBoxName": data["name"],        # Cardholder name
-        "textBoxExpDate": data["expiry_date"],           # Expiration date
-        "textBoxSvcCode": data["service_code"],        # Service code
-        "textBoxPvv": data["PVV"]  ,             # PIN
-        "textBoxCvv" : data["CVV"],
-        "textBoxDiscData" : data["Discretionary"]
+        "textBoxPan":data[0],  # Card number
+        "textBoxName": data[1],        # Cardholder name
+        "textBoxExpDate": data[2],           # Expiration date
+        "textBoxSvcCode": data[3],        # Service code
+        "textBoxPvv": data[4]  ,             # PIN
+        "textBoxCvv" : data[5],
+        "textBoxDiscData" : data[6]
     }
 
     for field_id, value in fields.items():

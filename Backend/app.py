@@ -72,15 +72,18 @@ def show_details():
 def generateP():
     data = request.json["main"]
     print("data",data)
-    card_number = data["card_number"],
-    expiry_date = data["expiry_date"],
+    card_number = str(data["card_number"])
+    expiry_date = data["expiry_date"]
     embossed_name = data["embossed_name"]
     sample1 = "0111005414000"
-    cardlast = card_number[-4:]
+    cardlast = str(card_number)[-4:]
+    service_code = data["service_code"]
 
-    format_embossing([card_number,expiry_date,embossed_name,sample1, cardlast])
-    
-    return jsonify(data), 200
+    emboss = emboss_data([card_number,expiry_date,embossed_name,sample1, cardlast])
+    track1, track2 = tracks([card_number, embossed_name, expiry_date, service_code])
+    result = encode(emboss + track1.strip() + track2.strip())
+    print(result)
+    return jsonify(result), 200
 
 
 @app.route("/track_data", methods = ["POST"])

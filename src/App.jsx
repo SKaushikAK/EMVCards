@@ -19,8 +19,6 @@ const App = () => {
 
   const navigate = useNavigate(); 
 
-
-
   const handleRevert = () => {
     navigate(-1); 
   }
@@ -38,6 +36,7 @@ const App = () => {
 
       <Route path="/add_details/extra_details" element={<AddButton2
                                           handleRevert={handleRevert} />} />
+      
       
       <Route path = "/show_details" element = {<ShowDetails 
                                                   navigate = {navigate}/>} />
