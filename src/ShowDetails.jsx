@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import "./css/ShowDetails.css"
 import axios from "axios";
 import Options from "./Options";
+import Header from "./Header";
+import Footer from "./Footer";
+import SideSearch from "./SideSearch";
 
 const ShowDetails = ({navigate}) => {
   const [data, setData] = useState([]);
@@ -12,6 +15,7 @@ const ShowDetails = ({navigate}) => {
         const response = await axios.get("/api_details");
         const fetchedData = response.data.message;
 
+
         const updatedData = fetchedData.map((item) => ({
           ...item,
           isOpen: false,
@@ -20,6 +24,7 @@ const ShowDetails = ({navigate}) => {
             isOpen: false,
           })),
         }));
+        console.log("Updated ",fetchedData)
         setData(updatedData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -28,6 +33,14 @@ const ShowDetails = ({navigate}) => {
 
     fetchData();
   }, []);
+
+
+  useEffect( () => {
+    const track = async () => {
+    const t = await axios.post("/track_data");
+    }
+    track();
+  }, [])
 
   const toggleMainDropdown = (index) => {
     setData((prevData) =>
@@ -54,15 +67,18 @@ const ShowDetails = ({navigate}) => {
     );
   };
 
-  const handleGenerateP3 = (details, mainItem) =>{
+  const handleGenerateP3 = (mainItem, details) =>{
 
-  navigate("/show_details/P3", { state: { mainItem, details } })
+  navigate("/show_details/P3", { state: { mainItem , details} })
 }
 
   if (!data.length) return <div>Loading...</div>;
 
   return (
-    <div>
+    <>
+    <Header />
+    <SideSearch navigate = {navigate}/>
+    <div className="main-container">
       <h1>Show Details</h1>
       {data.map((mainItem, mainIndex) => (
         <div key={mainIndex} style={{ marginBottom: "20px", border: "1px solid #ccc", padding: "10px" }}>
@@ -70,7 +86,7 @@ const ShowDetails = ({navigate}) => {
             onClick={() => toggleMainDropdown(mainIndex)}
             style={{ cursor: "pointer", color: "#4CAF50" }}
           >
-            Main {mainIndex + 1} {mainItem.isOpen ? "▲" : "▼"}
+            {mainItem.main.card_number} : {mainItem.main.embossed_name} {mainItem.isOpen ? "▲" : "▼"} 
           </h3>
 
           {mainItem.isOpen && (
@@ -131,7 +147,11 @@ const ShowDetails = ({navigate}) => {
 
               {/* Generate P3 Button */}
               <button
+<<<<<<< HEAD
                 onClick={() => handleGenerateP3(mainItem.details, mainItem)}
+=======
+                onClick={() => handleGenerateP3(mainItem, mainItem.details)}
+>>>>>>> 4f93007d48a7a643087382b377830277017c93c4
                 style={{
                   marginTop: "10px",
                   padding: "10px 20px",
@@ -149,6 +169,8 @@ const ShowDetails = ({navigate}) => {
         </div>
       ))}
     </div>
+    <Footer />
+    </>
   );
 };
 

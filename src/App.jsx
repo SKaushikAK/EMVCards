@@ -10,7 +10,6 @@ import GenerateP3 from "./GenerateP3"
 const App = () => {
 
   const [selectedBatch, setSelectedBatch] = useState(""); // Track selected batch
-  const batches = ["Batch 1", "Batch 2", "Batch 3"]; // Example batch options
 
   // Handle batch selection
   const handleBatchChange = (e) => {
@@ -18,20 +17,16 @@ const App = () => {
     setSelectedBatch(e.target.value);
   };
 
-  const navigate = useNavigate(); // Initialize useNavigate hook
-
-
-  // AddButton1.jsx submit
+  const navigate = useNavigate(); 
 
   const handleRevert = () => {
-    navigate(-1); // Navigate back
-  };
-
+    navigate(-1); 
+  }
+  
   return (
     <Routes>
       <Route path="/" element={<HomePage selectedBatch={selectedBatch}
                                 handleBatchChange={handleBatchChange}
-                                batches={batches} 
                                 navigate = {navigate}/>} />
 
       <Route path="/add_details" element={<AddButton
@@ -40,7 +35,8 @@ const App = () => {
                                       batch={selectedBatch} />} />
 
       <Route path="/add_details/extra_details" element={<AddButton2
-                                          navigate={navigate} />} />
+                                          handleRevert={handleRevert} />} />
+      
       
       <Route path = "/show_details" element = {<ShowDetails 
                                                   navigate = {navigate}/>} />

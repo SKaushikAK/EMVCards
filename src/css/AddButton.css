@@ -1,135 +1,199 @@
 /* AddButton.css */
 
-/* General Styling */
+/* General Reset */
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background-color: #f5f5f5;
+color: #333;
+}
+
+.roadmap{
+  padding: 0px;
+}
+
+/* Navigation Bar */
+.navbar {
+background-color: #007bff !important;
+color: #fff;
+padding: 1rem;
+text-align: center;
+font-size: 1.50rem;
+font-weight: bold;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+position: fixed;
+width: 100%;
+top: 0;
+left: 0;
+z-index: 1;
+}
+
+/* Container Styles */
 .add-details-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+display: flex;
+max-width: 1200px;
+height: 600px;
+margin: 4rem auto 2rem; /* Adjusted margin to account for fixed navbar */
+background-color: #fff;
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.add-details-container h2 {
-    text-align: center;
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
+h2 {
+text-align: center;
+color: #004d99;
+margin-bottom: 1rem;
 }
 
-/* Form Styling */
 .scrollable-form {
-    max-height: 600px;
-    overflow-y: auto;
-    padding-right: 10px;
+max-height: 80vh;
+overflow-y: auto;
+padding-right: 1rem;
+flex: 2;
 }
 
+/* Adjust Main Content */
+.add-details-container {
+  margin-left: 500px; /* Push the container to the right to make space for the sidebar */
+  width: calc(100% - 600px);
+  height: 600px;
+  margin-top: 4rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+
+
+/* Form Styles */
 .add-details-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+display: flex;
+flex-direction: column;
+gap: 1.5rem;
 }
 
 .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+display: flex;
+gap: 1rem;
+
 }
 
 .form-column {
-    flex: 1;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+input, select {
+padding: 0.5rem;
+font-size: 0.9rem;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+input:focus, select:focus {
+outline: none;
+border-color: #004d99;
+box-shadow: 0 0 4px rgba(0, 77, 153, 0.5);
 }
 
 .form-card-scheme {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 20px;
-    background-color: #f1f1f1;
+background-color: #f9f9f9;
+border-radius: 4px;
+padding: 2rem;
 }
 
 .form-card-scheme h3 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
+margin-bottom: 1rem;
+color: #004d99;
 }
 
-/* Label and Input Styling */
-label {
-    display: flex;
-    flex-direction: column;
-    font-size: 14px;
-    color: #555;
+.footer {
+  position: fixed; /* Fix the footer at the bottom */
+  bottom: 0;       /* Align it to the bottom of the viewport */
+  left: 0;         /* Stretch across the entire width */
+  width: 100%;
+  height: 0.9rem;     /* Set the height to 2px */
+  background-color: var(--light-grey); /* Light grey or desired color */
+  z-index: 1000;   /* Ensure it's above other elements */
 }
 
-input,
-select {
-    margin-top: 5px;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-}
-
-input:focus,
-select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
-}
-
-select {
-    background-color: #fff;
-}
-
-/* Button Group */
 .button-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+display: flex;
+justify-content: space-between;
+gap: 1rem;
 }
 
-.submit-btn,
-.back-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.submit-btn {
+background-color: #004d99;
+color: #fff;
+border: none;
+font-size: 1rem;
+border-radius: 4px;
+cursor: pointer;
+height: 2rem;
+width: 8rem;
+transition: background-color 0.3s;
 }
 
-.submit-btn:hover,
+.submit-btn:hover {
+background-color: #003366;
+}
+
+/* Back Button Styling */
+.sidebar .back-button {
+  display: block;
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  margin-top: auto; /* Push the button to the bottom */
+  width: 90%; /* Make it fit within the sidebar */
+  margin-left: 5%; /* Center align */
+}
+
+.sidebar .back-button:hover {
+  background-color: #bbb;
+}
+
+
+#root{
+    padding: 0;
+    margin-bottom: 30px;
+    border: 1px ;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
 .back-button:hover {
-    background-color: #0056b3;
+background-color: #bbb;
 }
 
-.back-button {
-    background-color: #6c757d;
-}
-
-.back-button:hover {
-    background-color: #495057;
-}
 
 /* Scrollbar Styling */
 .scrollable-form::-webkit-scrollbar {
-    width: 6px;
+width: 8px;
 }
 
 .scrollable-form::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 3px;
+background-color: #004d99;
+border-radius: 4px;
 }
 
-.scrollable-form::-webkit-scrollbar-thumb:hover {
-    background-color: #aaa;
+.scrollable-form::-webkit-scrollbar-track {
+background-color: #f1f1f1;
 }

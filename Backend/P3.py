@@ -1,7 +1,10 @@
-def format_embossing_data_with_lines_included(data_dict):
+from encrypt import *
+from scrap import scrap_track
+
+def emboss_data(data):
     """
-    Formats embossing data with line labels included in the encoded data
-    and displayed in a hex-dump style layout.
+    Formats embossing data with line labels included on the same row,
+    separated by spaces, and displayed in a hex-dump style layout.
 
     Args:
         data_dict (dict): Dictionary containing embossing details.
@@ -9,39 +12,49 @@ def format_embossing_data_with_lines_included(data_dict):
             Values: Corresponding data for each line.
 
     Returns:
-        str: Hex-dump style formatted embossing data with line labels included.
+        str: Hex-dump style formatted embossing data with line labels included inline.
     """
+    embossing_details = {
+        "Line1": data[0][:4]+ ' ' + data[0][4:8] + " " +data[0] [ 8: 12] + " " + data[0][ 12: 16],
+        "Line2": data[1],
+        "Line3": data[2],
+        "Line4": data[3],
+        "Line5": data[4][:4]
+    }
     
     
+    full_content = "$"+" ".join(f"{line_label} {line_content}" for line_label, line_content in embossing_details.items()) + r'"'
+    return full_content
+
+def encode(full_content):
+
+    full_content = full_content.encode("utf-8")
     result = ""
-    offset = 0  # Initialize the hexadecimal offset
+    offset = 0  
 
-    for line_label, line_content in data_dict.items():
-        # Combine the line label and its content
-        full_content = f"{line_label} {line_content}".encode("utf-8")
+    for i in range(0, len(full_content), 16):
 
-        # Process data in chunks of 16 bytes
-        for i in range(0, len(full_content), 16):
-            # Get the current chunk
-            chunk = full_content[i:i + 16]
+        chunk = full_content[i:i + 16]
 
-            # Create the hexadecimal part
-            hex_part = " ".join(f"{byte:02x}" for byte in chunk)
+        hex_part = " ".join(f"{byte:02x}" for byte in chunk)
 
-            # Create the ASCII part (replace non-printable characters with '.')
-            ascii_part = "".join(chr(byte) if 32 <= byte <= 126 else "." for byte in chunk)
+        ascii_part = "".join(chr(byte) if 32 <= byte <= 126 else "." for byte in chunk)
 
-            # Append the formatted line
-            result += f"{offset:08x}  {hex_part:<47}  {ascii_part}\n"
+        result += f"{offset:08x}  {hex_part:<47}  {ascii_part}\n"
 
-            # Increment the offset
-            offset += 16
+        offset += 16
 
     return result
 
+def tracks(data):
+    pin_verification = generate_pin()
+    cvv_pin = generate_cvv()
+    disc_data = generate_disc()
+    track_data = scrap_track(data + [pin_verification, cvv_pin, disc_data])
+    return track_data
+
 
 if __name__ == "__main__":
-    
 # Example usage:
     embossing_details = {
         "Line1": "90123456 SMITH/J",
@@ -51,10 +64,8 @@ if __name__ == "__main__":
         "Line5": "456 Cityville, State, Country."
     }
 
-    # Generate the formatted embossing data with lines included
-    formatted_embossing_data = format_embossing_data_with_lines_included(embossing_details)
+    formatted_embossing_data = format_embossing(embossing_details)
     print(formatted_embossing_data)
 
-    # Save to a file
-    with open("embossing_data_with_lines_included.txt", "w") as file:
+    with open("embossing_data_inline.txt", "w") as file:
         file.write(formatted_embossing_data)
