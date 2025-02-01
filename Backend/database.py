@@ -361,6 +361,7 @@ def get_details(batch, created):
   
   
 def get_datas():
+    
     conn = psycopg2.connect(
         database=DB_NAME,    # Connect to the database defined in .env
         user=DB_USER,      # Username from .env
@@ -379,10 +380,12 @@ def get_datas():
     SELECT CA.* FROM emv_cards E, card_account_details CA, account_options OP
     where E.id = CA.card_id and CA.id = OP.account_id; """
     
+    
     query3 = """
     SELECT OP.* FROM emv_cards E, card_account_details CA, account_options OP
     where E.id = CA.card_id and CA.id = OP.account_id; 
     """
+    
     
     
     cur.execute(query1)

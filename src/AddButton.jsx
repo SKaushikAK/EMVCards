@@ -16,8 +16,8 @@ const AddButton = ({ navigate, handleRevert }) => {
     data.batch_no = batch;
 
     try {
-      // const response = await axios.post('/add_details/api', data);
-      // localStorage.setItem("card_id", JSON.stringify(response.data.message));
+      const response = await axios.post('/add_details/api', data);
+      localStorage.setItem("card_id", JSON.stringify(response.data.message));
       navigate('/add_details/extra_details'); // Navigate to the next page if needed
     } catch (error) {
       alert('Error submitting data: ' + (error.response?.data?.error || error.message));
@@ -34,17 +34,17 @@ const AddButton = ({ navigate, handleRevert }) => {
       <main className="scrollable-form">
       
         <h2>Add EMV Card Details</h2>
-        <form className="add-details-form" onSubmit={handleAccountSubmit}>
+        <form onSubmit={handleAccountSubmit}>
           {/* First Section */}
           <div className="form-row">
             <div className="form-column">
               <label>
                 Branch Code:
-                <input name="branch_code" type="number" required />
+                <input name="branch_code" type="number" placeholder = "" required />
               </label>
               <label>
                 Card Seq No:
-                <input name="card_seq_no" type="number"  required />
+                <input name="card_seq_no" type="number" placeholder = "" required />
               </label>
               <label>
                 Card Number:

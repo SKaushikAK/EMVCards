@@ -4,11 +4,12 @@ import os
 from database  import *
 from P3 import *
 import requests
+from encrypt import *
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='../dist', static_url_path='')
-CORS(app)  # Enable CORS for React frontend
 
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 
 # Serve the main React app (index.html)
@@ -54,10 +55,11 @@ def extra_detailsI():
 
 @app.route("/api_details", methods = ["GET"])
 def get_details():
-    req_data = get_datas()
-    if not req_data:
-        return jsonify({"message": "Error in fetching datas"})
-    return jsonify({"message":req_data})
+    try:
+        req_data = get_datas()
+        return jsonify({"message":req_data})
+    except:
+        return jsonify({"message": []})
 
 @app.route("/show_details/api", methods = ['GET'])
 def show_details():
@@ -71,19 +73,30 @@ def show_details():
 @app.route("/generateP3", methods = ["POST"])
 def generateP():
     data = request.json["main"]
-    print("data",data)
+
     card_number = str(data["card_number"])
     expiry_date = data["expiry_date"]
     embossed_name = data["embossed_name"]
     sample1 = "0111005414000"
     cardlast = str(card_number)[-4:]
     service_code = data["service_code"]
+    version = str(data["version"])
+    address1 = data["address_1"]
+    address2 = data["address_2"]
+    address3 = data["address_3"]
+    address4 = data["address_4"]
+    cvv_pin = generate_cvv()
+    pin_verification = generate_pin()
 
-    emboss = emboss_data([card_number,expiry_date,embossed_name,sample1, cardlast])
-    track1, track2 = tracks([card_number, embossed_name, expiry_date, service_code])
-    result = encode(emboss + track1.strip() + track2.strip())
-    print(result)
-    return jsonify(result), 200
+    emboss = emboss_data([card_number,expiry_date,embossed_name,sample1, cardlast+str(cvv_pin)])
+    track = tracks([card_number, embossed_name, expiry_date, service_code, pin_verification, cvv_pin])
+    print(track)
+    track1, track2 = track[0], track[1]
+    carrier_data = carrier([card_number, version, sample1, embossed_name, expiry_date,address1,address2,address3, address4])
+    chip_data = chip([track1, track2, card_number, pin_verification])
+
+    result = encode(emboss +"|"+ track1.strip() + track2.strip()+"|"+carrier_data + "|" + chip_data)
+    return jsonify({"message": result}), 200
 
 
 @app.route("/track_data", methods = ["POST"])

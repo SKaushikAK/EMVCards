@@ -15,4 +15,4 @@ def update_env_file(file_path, key, value):
 
 # Update .env file
 if __name__ == '__main__':
-    update_env_file('.env', 'DB_NAME', 'EMV-cards')
+    update_env_file('.env', 'DB_NAME', 'emvcards')

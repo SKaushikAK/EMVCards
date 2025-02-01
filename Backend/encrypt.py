@@ -5,7 +5,7 @@ def generate_pin():
     return pin
 
 def generate_cvv ():
-    pin = random.randint(1000,9999)
+    pin = random.randint(100,999)
     return pin
 
 def generate_disc():

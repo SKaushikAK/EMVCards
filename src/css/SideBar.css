@@ -4,7 +4,7 @@
     left: 0; 
     top: 4rem; /* Adjust for the fixed navbar */
     height: calc(100vh - 4rem); /* Full height minus navbar height */
-    width: 400px; /* Set a fixed width */
+    width: calc(100% - 1100px); /* Set a fixed width */
     background-color: #f9f9f9;
     border-right: 1px solid #ddd;
     /* padding: 0.9rem; */

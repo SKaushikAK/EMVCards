@@ -1,5 +1,6 @@
 from encrypt import *
 from scrap import scrap_track
+from pin_block import iso0_pin_block
 
 def emboss_data(data):
     """
@@ -19,8 +20,9 @@ def emboss_data(data):
         "Line2": data[1],
         "Line3": data[2],
         "Line4": data[3],
-        "Line5": data[4][:4]
+        "Line5": data[4]
     }
+    print(data[4])
     
     
     full_content = "$"+" ".join(f"{line_label} {line_content}" for line_label, line_content in embossing_details.items()) + r'"'
@@ -47,11 +49,21 @@ def encode(full_content):
     return result
 
 def tracks(data):
-    pin_verification = generate_pin()
-    cvv_pin = generate_cvv()
     disc_data = generate_disc()
-    track_data = scrap_track(data + [pin_verification, cvv_pin, disc_data])
+    track_data = scrap_track(data + [disc_data])
     return track_data
+
+
+def carrier(data):
+    result = ""
+    result = data[0] + "_V_" + data[1]+"|"+ data[1] +data[2] + "|" + data[3] + "|" + data[4] + "|" + data[5] + "|" + data[6] + "|" + data[7] + "|" + data[8]
+    return result
+
+def chip(data):
+    result = data[0] + data[1] + data[2]
+    block = iso0_pin_block(data[3], data[2])
+    result += block
+    return result 
 
 
 if __name__ == "__main__":
@@ -62,9 +74,9 @@ if __name__ == "__main__":
         "Line3": "My Corp Mr J Smith",
         "Line4": "123 Elm St Suite",
         "Line5": "456 Cityville, State, Country."
-    }
+    }      
 
-    formatted_embossing_data = format_embossing(embossing_details)
+    formatted_embossing_data = emboss_data(embossing_details)
     print(formatted_embossing_data)
 
     with open("embossing_data_inline.txt", "w") as file:

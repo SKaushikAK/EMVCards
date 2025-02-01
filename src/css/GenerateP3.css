@@ -1,0 +1,18 @@
+#main-cont{
+    font-family: "monospace";
+    background: "white";
+    color: "#0f0";
+    border-radius: "10px";
+    overflow-x: "auto" ;
+    height :"100px";
+}
+
+h2 {
+    color: "black" 
+}
+
+pre{ 
+    white-space: "pre-wrap";
+    color : "blue"; 
+    word-wrap: "break-word" ;
+}
