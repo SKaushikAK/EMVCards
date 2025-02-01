@@ -5,7 +5,7 @@ const SideSearch = ({navigate}) => {
     <>
     <aside className="sidebar">
       <h3>FILTER</h3>
-      <form>
+      <form onSubmit={(e) => {e.preventDefault()}}>
       <label>
             Enter the batch: 
             <input className = "batch-no" type = "number"/>

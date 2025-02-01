@@ -31,16 +31,16 @@ const ShowDetails = ({navigate}) => {
       }
     };
 
+    // const track = async () => {
+    //   const t = await axios.post("http://localhost:5000/track_data");
+    //   }
+
+    // track();
     fetchData();
   }, []);
 
 
-  useEffect( () => {
-    const track = async () => {
-    const t = await axios.post("/track_data");
-    }
-    track();
-  }, [])
+
 
   const toggleMainDropdown = (index) => {
     setData((prevData) =>
