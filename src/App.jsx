@@ -6,7 +6,6 @@ import { useState } from "react";
 import ShowDetails from "./ShowDetails";
 import GenerateP3 from "./GenerateP3"
 
-
 const App = () => {
 
   const [selectedBatch, setSelectedBatch] = useState(""); // Track selected batch

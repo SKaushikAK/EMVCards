@@ -1,0 +1,22 @@
+/* Navigation Bar */
+.navbar {
+    background-color:#002244;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.50rem;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    }
+
+.navbar-logo {
+    height: 30px; /* Adjust as needed */
+    position: absolute;
+    left: 27rem
+    /* margin-right: 5px; */
+      }

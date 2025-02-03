@@ -1,76 +1,56 @@
-/* General Styles */
-/* body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7fa;
-    margin: 0;
-    padding: 0;
-    overflow-y: auto;
-} */
-.main-container{
-    margin-top: 50px;
-    padding: 30px;
-    margin-left: 400px;
-    height: 800px;
-    
+
+/* Main Container */
+.main-container {
+    position: absolute;
+    top: 70px;
+    width: 140vh;
+    left: 400px; /* Push content to make space for sidebar */
+    transition: margin-left 0.3s ease-in-out;
+    margin : 0px;
+}
+h1 {
+    justify-items: center;
 }
 
-/* Navbar Styles */
-.navbar {
-    background-color: #4CAF50;
-    padding: 15px 0;
-    /* color: white; */
-}
 
-.navbar-container {
-    width: 90%;
-    margin: 0 auto;
+/* Buttons */
+.button-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    margin-top: 10px;
 }
 
-.navbar-heading {
-    font-size: 24px;
-    margin: 0;
-}
-
-.navbar-menu {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.navbar-menu li {
-    margin-left: 20px;
-}
-
-.navbar-menu li a {
-    text-decoration: none;
+.back-button {
+    background-color: #007bff;
     color: white;
-    font-size: 18px;
-    transition: color 0.3s ease;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
-.navbar-menu li a:hover {
-    color: #f0f0f0;
+.back-button:hover {
+    background-color: #0056b3;
 }
 
-/* Table Container Styles */
+.back-button:nth-child(2) {
+    background-color: #ccc;
+    color: #333;
+}
+
+.back-button:nth-child(2):hover {
+    background-color: #bbb;
+}
+
+/* Table Container */
 .table-container {
-    width: 80%;
-    margin: 30px auto;
+    width: 100%;
     background-color: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    font-size: 28px;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
 }
 
 /* Table Styles */
@@ -80,10 +60,10 @@ table {
     margin-top: 20px;
 }
 
-th,
-td {
+th, td {
     padding: 12px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
 th {
@@ -103,9 +83,10 @@ tr:nth-child(even) td {
 }
 
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #e8f0ff;
 }
 
+/* Checkbox Styling */
 input[type="checkbox"] {
     width: 18px;
     height: 18px;
@@ -113,14 +94,14 @@ input[type="checkbox"] {
     margin: 0;
 }
 
-/* Account Section Styles */
+/* Account Section */
 h3 {
     font-size: 22px;
     color: #333;
     margin-bottom: 10px;
 }
 
-div {
+div.account-container {
     margin-bottom: 30px;
     padding: 20px;
     border: 1px solid #e0e0e0;
@@ -130,4 +111,114 @@ div {
 
 div:last-child {
     margin-bottom: 0;
+}
+
+/* Generate P3 Button */
+.generate-p3-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #FF5733;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.generate-p3-btn:hover {
+    background-color: #d84315;
+}
+
+/* Responsive Behavior */
+@media (max-width: 1200px) {
+    .main-container {
+        left: 380px;
+        width: 700px;
+    }
+
+    .sidebar {
+        width: 260px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .main-container {
+        left: 400px;
+        width: 700px;
+    }
+
+    .sidebar {
+        width: 230px;
+    }
+
+    .sidebar h3 {
+        font-size: 1.4rem;
+    }
+
+    .sidebar input {
+        font-size: 0.9rem;
+        padding: 6px;
+    }
+
+    .back-button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        left: 250px;
+    }
+
+    .sidebar {
+        width: 200px;
+        padding: 15px;
+    }
+
+    .sidebar h3 {
+        font-size: 1.2rem;
+    }
+
+    .sidebar input {
+        font-size: 0.8rem;
+    }
+
+    .back-button {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 100%;
+        height: calc(100% - 100px);
+        position: relative;
+        border-right: none;
+        box-shadow: none;
+    }
+
+    .sidebar h3 {
+        font-size: 1.4rem;
+    }
+
+    .sidebar form {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sidebar label {
+        width: 100%;
+        text-align: center;
+    }
+
+    .sidebar input {
+        width: 80%;
+    }
+
+    .back-button {
+        width: 100%;
+    }
 }

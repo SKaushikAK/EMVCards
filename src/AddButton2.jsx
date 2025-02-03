@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./css/AddButton2.css";
 import axios from'axios';
 import Header from "./Header";
@@ -7,6 +8,11 @@ import Footer from "./Footer";
 
 
 const AddButton2 = ({handleRevert}) => {
+
+
+  const location = useLocation();
+  const main = location.state || {}
+  console.log(main.address_1)
   const [formData, setFormData] = useState([
     {
       accountNo: "",
@@ -101,10 +107,9 @@ const AddButton2 = ({handleRevert}) => {
     if (!validateForm()) return;
 
     const selectedBatch = JSON.parse(localStorage.getItem("batch"));
-    const card_id = JSON.parse(localStorage.getItem("card_id"))
 
     const payload = {
-      id : card_id, 
+      main_data : main,
       batch: selectedBatch, // Add batch_no to the payload
       formData: formData,
       options,
@@ -113,10 +118,10 @@ const AddButton2 = ({handleRevert}) => {
     console.log(payload)
 
     try {
-        const response = await axios.post('/add_details/extra_details/api', payload);
-        console.log('Response:', response);
-        alert(response.data.message);
-        // navigate('/add_details/extra_details'); // Navigate to the next page
+        const response = await axios.post('http://localhost:5000/add_details/extra_details/api', payload);
+      // const response = await axios.post('/add_details/api', data);
+      alert(response.data.message);
+      // navigate('/add_details/extra_details'); // Navigate to the next page
     } catch (error) {
         console.error('Error details:', error);
         alert('Error submitting data: ' + (error.response?.data?.error || error.message));

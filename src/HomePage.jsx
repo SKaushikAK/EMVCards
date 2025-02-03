@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/HomePage.css';
+import logo from "./assets/cr2.png"
 
 const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
 
@@ -18,10 +19,15 @@ const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
       }
     }
 
+    useEffect(() => {
+      localStorage.setItem("main_data", JSON.stringify(""))
+    }, [])
+
   return (
     <>
       <header className="header">
         <nav className="nav">
+        <img src={logo} alt="CR2 Logo" className="nav-logo" />
           <ul className="nav-list">
             <li className="nav-item"><a href="#" className="nav-link">Home</a></li>
             <li className="nav-item"><a href="#" className="nav-link">About</a></li>

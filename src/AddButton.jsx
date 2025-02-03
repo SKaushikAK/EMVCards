@@ -2,6 +2,7 @@ import './css/AddButton.css';
 import axios from 'axios';
 import Header from './Header';
 import SideBar from './SideBar';
+import { useEffect } from 'react';
 
 const AddButton = ({ navigate, handleRevert }) => {
   const handleAccountSubmit = async (e) => {
@@ -16,13 +17,18 @@ const AddButton = ({ navigate, handleRevert }) => {
     data.batch_no = batch;
 
     try {
-      const response = await axios.post('/add_details/api', data);
-      localStorage.setItem("card_id", JSON.stringify(response.data.message));
-      navigate('/add_details/extra_details'); // Navigate to the next page if needed
+      // const response = await axios.post('/add_details/api', data);
+      // localStorage.setItem("card_id", JSON.stringify(response.data.message));
+      navigate('/add_details/extra_details', {state : data}); // Navigate to the next page if needed
     } catch (error) {
       alert('Error submitting data: ' + (error.response?.data?.error || error.message));
     }
   };
+
+  // useEffect(() => {
+  //   const lang = axios.get("http://localhost:5000/generateLang")
+  //   console.log(lang.data.message);
+  // }, [])
 
   return (
     <>  
@@ -40,49 +46,49 @@ const AddButton = ({ navigate, handleRevert }) => {
             <div className="form-column">
               <label>
                 Branch Code:
-                <input name="branch_code" type="number" required />
+                <input name="branch_code" placeholder = "Eg. 100" type="number" required />
               </label>
               <label>
                 Card Seq No:
-                <input name="card_seq_no" type="number"  required />
+                <input name="card_seq_no" placeholder =  "Eg 1" type="number"  required />
               </label>
               <label>
                 Card Number:
-                <input name="card_number" type="number"  required />
+                <input name="card_number" placeholder =  "16 digits"  type="number"  required />
               </label>
               <label>
                 Encoded Name:
-                <input name="encoded_name" type="text" required />
+                <input name="encoded_name" placeholder =  "Eg. SMITH/J.MR" type="text" required />
               </label>
               <label>
                 Embossed Name:
-                <input name="embossed_name" type="text"  />
+                <input name="embossed_name" type="text" placeholder =  "Eg SMITH J.MR"  />
               </label>
               <label>
                 Corporate Name:
-                <input name="corporate_name" type="text"  />
+                <input name="corporate_name" type="text"   />
               </label>
             </div>
             <div className="form-column">
               <label>
                 PIN Mailer Name:
-                <input name="pin_mailer_name" type="text"  />
+                <input name="pin_mailer_name" type="text" placeholder =  "Mr Smith J"  />
               </label>
               <label>
                 Address 1:
-                <input name="address_1" type="text" />
+                <input name="address_1" type="text" placeholder='address1'/>
               </label>
               <label>
                 Address 2:
-                <input name="address_2" type="text"  />
+                <input name="address_2" type="text"  placeholder='address2'/>
               </label>
               <label>
                 Address 3:
-                <input name="address_3" type="text"  />
+                <input name="address_3" type="text" placeholder='address3' />
               </label>
               <label>
                 Address 4:
-                <input name="address_4" type="text" />
+                <input name="address_4" type="text" placeholder='address4' />
               </label>
             </div>
           </div>

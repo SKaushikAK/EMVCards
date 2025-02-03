@@ -5,11 +5,12 @@ from database  import *
 from P3 import *
 import requests
 from encrypt import *
+import http.client
+
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='../dist', static_url_path='')
 CORS(app)  # Enable CORS for React frontend
-
 
 
 # Serve the main React app (index.html)
@@ -31,10 +32,9 @@ def static_files():
 # Route to add batch details (placeholder)
 @app.route('/add_details/api', methods=['POST'])
 def add_details():
-    # # First create a table if necessary
+
     create_main_table()
     
-    #send the data
     data = request.json
     result = individual_details(data)
     
@@ -44,14 +44,23 @@ def add_details():
 @app.route('/add_details/extra_details/api', methods=['POST'])
 def extra_detailsI():
     data = request.json
-    data ["batch"] = data["batch"][-1]
-    print("Request",request.json)
+    print("data", data)
+
+    #create Tables
+    create_main_table()
     create_account_details()
+
+    # data = request.json
+    result = individual_details(data["main_data"], data["formData"], data["options"], data["batch"])
     
-    #insert details
-    insert_account(data)
+    # return jsonify({"message" : result})
+    # data ["batch"] = data["batch"][-1]
+    # print("Request",request.json)
     
-    return jsonify({"message" : False})
+    # #insert details
+    # insert_account(data)
+    
+    return jsonify({"message" : result})
 
 @app.route("/api_details", methods = ["GET"])
 def get_details():
@@ -68,6 +77,12 @@ def show_details():
     
     details = get_details(batch, created)
     return jsonify(details), 200
+
+@app.route("/generateLang",methods = ['GET'])
+def lang():
+
+
+    return jsonify({"message" :"False"})
 
 @app.route("/generateP3", methods = ["POST"])
 def generateP():
@@ -89,12 +104,14 @@ def generateP():
 
     emboss = emboss_data([card_number,expiry_date,embossed_name,sample1, cardlast+str(cvv_pin)])
     track = tracks([card_number, embossed_name, expiry_date, service_code, pin_verification, cvv_pin])
-    print(track)
     track1, track2 = track[0], track[1]
+    track1 = track1.replace(" ", "")
+    track2 = track2.replace(" ", "")
+    
     carrier_data = carrier([card_number, version, sample1, embossed_name, expiry_date,address1,address2,address3, address4])
     chip_data = chip([track1, track2, card_number, pin_verification])
 
-    result = encode(emboss +"|"+ track1.strip() + track2.strip()+"|"+carrier_data + "|" + chip_data)
+    result = encode(emboss[:-1] +"|"+ track1.strip() + track2.strip()+"|"+carrier_data + "|" + chip_data)
     return jsonify({"message": result}), 200
 
 
