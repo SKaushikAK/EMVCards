@@ -76,14 +76,6 @@ td select {
     transform: scale(1.2);
 }
 
-/* Ensure visibility without scrolling */
-body,
-html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 100%;
-}
 
 .container {
     height: 100%;

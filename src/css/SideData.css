@@ -1,0 +1,46 @@
+.p3-sidebar {
+    position: fixed;
+    left: 0;
+    top: 4rem; /* Adjust for navbar */
+    width: 350px;
+    height: calc(100vh - 4rem);
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-right: 2px solid #ddd;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+  }
+  
+    /* Sidebar Title */
+    .p3-title {
+        font-size: 1.4rem;
+        color: #004d99;
+        text-align: center;
+        margin-bottom: 10px;
+        /* position: absolute; */
+      }
+      
+      /* Sidebar Table */
+      .p3-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      
+      .p3-table td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      
+      .p3-table-key {
+        font-weight: bold;
+        background-color: #f1f1f1;
+      }
+
+      .p3-error {
+        color: red;
+        text-align: center;
+        font-weight: bold;
+      }
+      
+      

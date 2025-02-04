@@ -13,4 +13,5 @@ export default defineConfig({
       '/api': 'http://localhost:5000', // Proxy API requests to Flask server
     },
   },
+  base: './', // Optional: Set the base path
 });

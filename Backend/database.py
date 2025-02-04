@@ -109,56 +109,7 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         conn.close()
         return 1
 
-def individual_details(data_json):
-    global global_account
-    conn = psycopg2.connect(
-        database=DB_NAME,    # Connect to the database defined in .env
-        user=DB_USER,      # Username from .env
-        password=DB_PASSWORD,  # Password from .env
-        host=DB_HOST,      # Host from .env
-        port=DB_PORT,     # Port from .env
-    )
-    
-    cur = conn.cursor()
-    data = data_json
-
-    print(data)
-    
-    sql_query = f"""
-        INSERT INTO emv_cards (
-            batch_no, branch_code, card_seq_no, card_number, encoded_name, embossed_name,
-            corporate_name, pin_mailer_name, address_1, address_2, address_3, address_4,
-            language, version, currency_code, currency_exponent, begin_date,
-            expiry_date, cash_cycle_date, cash_limit, offline_limit, network_limit,
-            sale_cycle_date, cash_cycle_length, sale_cycle_length, sale_limit,
-            manual_cash, service_code, iso_service_restriction, scheme_id, scheme_name
-        )
-        VALUES (
-            {data["batch_no"][-1]}, {data["branch_code"]}, {data["card_seq_no"]}, {data["card_number"]}, '{data["encoded_name"]}', '{data["embossed_name"]}',
-            '{data["corporate_name"]}', '{data["pin_mailer_name"]}', '{data["address_1"]}', '{data["address_2"]}', '{data["address_3"]}', '{data["address_4"]}',
-            '{data["language"]}', {data["version"]}, '{data["currency_code"]}', {data["currency_exponent"]}, '{data["begin_date"]}',
-            '{data["expiry_date"]}', '{data["cash_cycle_date"]}', {data["cash_limit"]}, {data["offline_limit"]}, {data["network_limit"]},
-            '{data["sale_cycle_date"]}', {data["cash_cycle_length"]}, {data["sale_cycle_length"]}, {data["sale_limit"]},
-            {data["manual_cash"]}, {data["service_code"]}, {data["iso_service_restriction"]}, {data["scheme_id"]}, '{data["scheme_name"]}'
-        ) RETURNING id;
-    """
-
-    try:
-        cur.execute(sql_query)
-        card_id = cur.fetchone()[0]
-        print("card_id", card_id)
-        
-        global_account = card_id
-        conn.commit()
-        conn.close()
-        cur.close()
-        
-        return card_id
-    except Exception as e:
-        conn.close()
-        cur.close()
-        return False
-        
+     
 def create_account_details():
     load_dotenv()
     
@@ -227,9 +178,9 @@ def create_account_details():
     cur.close()
     conn.close()
 
-def insert_account(data):
-    
-    
+
+def individual_details(data_json, formdata, options, batch):
+    global global_account
     conn = psycopg2.connect(
         database=DB_NAME,    # Connect to the database defined in .env
         user=DB_USER,      # Username from .env
@@ -239,14 +190,51 @@ def insert_account(data):
     )
     
     cur = conn.cursor()
+    data = data_json
+
+    print(data)
     
+    sql_query = f"""
+        INSERT INTO emv_cards (
+            batch_no, branch_code, card_seq_no, card_number, encoded_name, embossed_name,
+            corporate_name, pin_mailer_name, address_1, address_2, address_3, address_4,
+            language, version, currency_code, currency_exponent, begin_date,
+            expiry_date, cash_cycle_date, cash_limit, offline_limit, network_limit,
+            sale_cycle_date, cash_cycle_length, sale_cycle_length, sale_limit,
+            manual_cash, service_code, iso_service_restriction, scheme_id, scheme_name
+        )
+        VALUES (
+            {batch[-1]}, {data["branch_code"]}, {data["card_seq_no"]}, {data["card_number"]}, '{data["encoded_name"]}', '{data["embossed_name"]}',
+            '{data["corporate_name"]}', '{data["pin_mailer_name"]}', '{data["address_1"]}', '{data["address_2"]}', '{data["address_3"]}', '{data["address_4"]}',
+            '{data["language"]}', {data["version"]}, '{data["currency_code"]}', {data["currency_exponent"]}, '{data["begin_date"]}',
+            '{data["expiry_date"]}', '{data["cash_cycle_date"]}', {data["cash_limit"]}, {data["offline_limit"]}, {data["network_limit"]},
+            '{data["sale_cycle_date"]}', {data["cash_cycle_length"]}, {data["sale_cycle_length"]}, {data["sale_limit"]},
+            {data["manual_cash"]}, {data["service_code"]}, {data["iso_service_restriction"]}, {data["scheme_id"]}, '{data["scheme_name"]}'
+        ) RETURNING id;
+    """
+
+    try: 
+        cur.execute(sql_query)
+        card_id = cur.fetchone()[0]
+        print("card_id", card_id)
+        
+        global_account = card_id
+    except:
+        conn.commit()
+        conn.close()
+        cur.close()
+        return e
+        
+   
+    data = {"formData" : formdata, "options" : options, "batch": batch}
+
     for i in range(len(data["formData"])):
         insert_1 = f"""
         INSERT into card_account_details
         (card_id , batch_no, account_no , acc_sys_no, acc_sys_name,
         desc_no, acc_name,  iso, currency_code , currency_name)
         values 
-        ({data['id']}, {data["batch"]}, '{data["formData"][i]["accountNo"]}', '{data["formData"][i]["accSysNo"]}', '{data["formData"][i]["accSysName"]}',
+        ({global_account}, {data["batch"]}, '{data["formData"][i]["accountNo"]}', '{data["formData"][i]["accSysNo"]}', '{data["formData"][i]["accSysName"]}',
         {data["formData"][i]["descNo"]}, '{data["formData"][i]["accName"]}', '{data["formData"][i]["iso"] }', '{data["formData"][i]["currencyCode"]}', '{data["formData"][i]["currencyName"]}' )
         RETURNING id;
         """
@@ -259,7 +247,7 @@ def insert_account(data):
             print(e)
             cur.close()
             conn.close()
-            return False
+            return e
 
         #reference id
         id = cur.fetchone()[0]

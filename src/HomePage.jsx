@@ -1,6 +1,8 @@
-// import { useState } from 'react';
+import { useEffect } from 'react';
 import './css/HomePage.css';
+import logo from "./assets/cr2.png"
 
+// eslint-disable-next-line react/prop-types
 const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
 
 
@@ -18,10 +20,15 @@ const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
       }
     }
 
+    useEffect(() => {
+      localStorage.setItem("main_data", JSON.stringify(""))
+    }, [])
+
   return (
     <>
       <header className="header">
         <nav className="nav">
+        <img src={logo} alt="CR2 Logo" className="nav-logo" />
           <ul className="nav-list">
             <li className="nav-item"><a href="#" className="nav-link">Home</a></li>
             <li className="nav-item"><a href="#" className="nav-link">About</a></li>
@@ -40,8 +47,8 @@ const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
           <h1 className="hero-title">CR2: Premier Digital Banking | Payment Platform</h1>
           <p className="hero-description">Discover our amazing products and services.</p>
           <div className="hero-buttons">
-            <button className="hero-cta" onClick={() => handleNavigate("add")} >Add Card Details</button>
-            <button className="hero-cta" onClick={ () => handleNavigate("show")}>Show Card Details</button>
+            <a className="hero-cta" onClick={() => handleNavigate("add")} >Add Card Details</a>
+            <a className="hero-cta" onClick={ () => handleNavigate("show")}>Show Card Details</a>
           </div>
         </section>
 
