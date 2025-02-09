@@ -34,7 +34,8 @@ const App = () => {
                                       batch={selectedBatch} />} />
 
       <Route path="/add_details/extra_details" element={<AddButton2
-                                          handleRevert={handleRevert} />} />
+                                          handleRevert={handleRevert} 
+                                          navigate = {navigate}/>} />
       
       
       <Route path = "/show_details" element = {<ShowDetails 

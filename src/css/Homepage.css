@@ -79,6 +79,7 @@ body{
 .hero {
   padding: 3rem;
   text-align: center;
+  background-color: white;
 }
 
 .hero-title {
@@ -137,6 +138,7 @@ body{
   font-size: 3rem;
   color: var(--primary-color);
   margin-bottom: 1rem;
+  padding: 2px;
 }
 
 .feature-title {

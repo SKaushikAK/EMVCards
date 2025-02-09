@@ -5,18 +5,21 @@ from dotenv import load_dotenv
 from env import update_env_file 
 from psycopg2.extras import RealDictCursor
 
-load_dotenv()
+def load():
+    load_dotenv()
 
-# Get database credentials from environment variables
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
+    # Get database credentials from environment variables
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_HOST = os.getenv("DB_HOST")
+    DB_PORT = os.getenv("DB_PORT")
+    DB_NAME = os.getenv("DB_NAME")
 
+    return DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
 
 def create_database():
 
+    DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME = load()
     conn = psycopg2.connect(
         database=DB_NAME,    # Connect to the database defined in .env
         user=DB_USER,      # Username from .env
@@ -42,7 +45,7 @@ def create_database():
         load_dotenv()
 
     except Exception as e:
-        print("already Exists")
+        print(e)
         pass
     
     
@@ -54,6 +57,8 @@ def create_database():
 
 
 def create_main_table():
+    DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME = load()
+    print(DB_NAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER)
     conn = psycopg2.connect(
     database=DB_NAME,    # Connect to the database defined in .env
     user=DB_USER,      # Username from .env
@@ -63,42 +68,45 @@ def create_main_table():
 )
     CREATE_TABLE_QUERY = """
 CREATE TABLE IF NOT EXISTS emv_cards (
-id SERIAL PRIMARY KEY,
-batch_no INTEGER NOT NULL,
-branch_code INTEGER NOT NULL,
-card_seq_no INTEGER NOT NULL,
-card_number BIGINT NOT NULL,
-encoded_name VARCHAR(255) NOT NULL,
-embossed_name VARCHAR(255),
-corporate_name VARCHAR(255),
-pin_mailer_name VARCHAR(255),
-address_1 VARCHAR(255),
-address_2 VARCHAR(255),
-address_3 VARCHAR(255),
-address_4 VARCHAR(255),
-language VARCHAR(10),
-version INTEGER,
-currency_code INTEGER,
-currency_exponent INTEGER,
-begin_date VARCHAR(10),
-expiry_date VARCHAR(10),
-cash_cycle_date VARCHAR(10),
-cash_limit INTEGER,
-offline_limit INTEGER,
-network_limit INTEGER,
-sale_cycle_date VARCHAR(10),
-cash_cycle_length INTEGER,
-sale_cycle_length INTEGER,
-sale_limit INTEGER,
-manual_cash INTEGER,
-service_code INTEGER,
-iso_service_restriction INTEGER,
-scheme_id INTEGER NOT NULL,
-scheme_name VARCHAR(50) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id SERIAL,
+    batch_no INTEGER NOT NULL,
+    branch_code INTEGER NOT NULL,
+    card_seq_no INTEGER NOT NULL,
+    card_number BIGINT NOT NULL,
+    encoded_name VARCHAR(255) NOT NULL,
+    embossed_name VARCHAR(255),
+    corporate_name VARCHAR(255),
+    pin_mailer_name VARCHAR(255),
+    address_1 VARCHAR(255),
+    address_2 VARCHAR(255),
+    address_3 VARCHAR(255),
+    address_4 VARCHAR(255),
+    language VARCHAR(10),
+    version INTEGER,
+    currency_code INTEGER,
+    currency_exponent INTEGER,
+    begin_date VARCHAR(10),
+    expiry_date VARCHAR(10),
+    cash_cycle_date VARCHAR(10),
+    cash_limit INTEGER,
+    offline_limit INTEGER,
+    network_limit INTEGER,
+    sale_cycle_date VARCHAR(10),
+    cash_cycle_length INTEGER,
+    sale_cycle_length INTEGER,
+    sale_limit INTEGER,
+    manual_cash INTEGER,
+    service_code INTEGER,
+    sale_freq INTEGER,
+    cash_freq INTEGER,
+    iso_service_restriction INTEGER,
+    scheme_id INTEGER NOT NULL,
+    scheme_name VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id, card_number)  -- Composite Primary Key
 );
 """
-    try:    
+    try:   
         cur = conn.cursor()
         cur.execute(CREATE_TABLE_QUERY)
         conn.commit()
@@ -107,11 +115,12 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     except Exception as e:
         cur.close()
         conn.close()
-        return 1
+        print(e)
+        return e
 
      
 def create_account_details():
-    load_dotenv()
+    DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME = load()
     
     
     conn = psycopg2.connect(
@@ -125,19 +134,21 @@ def create_account_details():
     cur = conn.cursor()
     
     table_query = """
-    CREATE TABLE  IF NOT EXISTS card_account_details  (
-    id SERIAL PRIMARY KEY, -- Unique identifier for each account detail
-    card_id INT NOT NULL REFERENCES emv_cards(id) ON DELETE CASCADE, -- Links to `emv_cards`
-    batch_no INT NOT NULL, -- Batch number from the first page
-    account_no VARCHAR(50) NOT NULL, -- Account number
-    acc_sys_no VARCHAR(50) NOT NULL, -- Account system number
-    acc_sys_name VARCHAR(50) NOT NULL DEFAULT 'Local System', -- System name (e.g., Local/Remote)
-    desc_no INTEGER NOT NULL, -- Description number
-    acc_name VARCHAR(10) NOT NULL DEFAULT 'CREDIT', -- Account name (e.g., CREDIT/DEBIT)
-    iso VARCHAR(10), -- ISO code
-    currency_code VARCHAR(10), -- Currency code
-    currency_name VARCHAR(50), -- Currency name
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS card_account_details  (
+    id SERIAL PRIMARY KEY,
+    card_id INT NOT NULL,
+    card_number BIGINT NOT NULL,
+    batch_no INT NOT NULL,
+    account_no VARCHAR(50) NOT NULL,
+    acc_sys_no VARCHAR(50) NOT NULL,
+    acc_sys_name VARCHAR(50) NOT NULL DEFAULT 'Local System',
+    desc_no INTEGER NOT NULL,
+    acc_name VARCHAR(10) NOT NULL DEFAULT 'CREDIT',
+    iso VARCHAR(10),
+    currency_code VARCHAR(10),
+    currency_name VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (card_id, card_number) REFERENCES emv_cards(id, card_number) ON DELETE CASCADE
 );
 """
 
@@ -180,6 +191,7 @@ def create_account_details():
 
 
 def individual_details(data_json, formdata, options, batch):
+    DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME = load()
     global global_account
     conn = psycopg2.connect(
         database=DB_NAME,    # Connect to the database defined in .env
@@ -191,9 +203,7 @@ def individual_details(data_json, formdata, options, batch):
     
     cur = conn.cursor()
     data = data_json
-
-    print(data)
-    
+        
     sql_query = f"""
         INSERT INTO emv_cards (
             batch_no, branch_code, card_seq_no, card_number, encoded_name, embossed_name,
@@ -201,7 +211,7 @@ def individual_details(data_json, formdata, options, batch):
             language, version, currency_code, currency_exponent, begin_date,
             expiry_date, cash_cycle_date, cash_limit, offline_limit, network_limit,
             sale_cycle_date, cash_cycle_length, sale_cycle_length, sale_limit,
-            manual_cash, service_code, iso_service_restriction, scheme_id, scheme_name
+            manual_cash, service_code, sale_freq, cash_freq, iso_service_restriction, scheme_id, scheme_name
         )
         VALUES (
             {batch[-1]}, {data["branch_code"]}, {data["card_seq_no"]}, {data["card_number"]}, '{data["encoded_name"]}', '{data["embossed_name"]}',
@@ -209,7 +219,7 @@ def individual_details(data_json, formdata, options, batch):
             '{data["language"]}', {data["version"]}, '{data["currency_code"]}', {data["currency_exponent"]}, '{data["begin_date"]}',
             '{data["expiry_date"]}', '{data["cash_cycle_date"]}', {data["cash_limit"]}, {data["offline_limit"]}, {data["network_limit"]},
             '{data["sale_cycle_date"]}', {data["cash_cycle_length"]}, {data["sale_cycle_length"]}, {data["sale_limit"]},
-            {data["manual_cash"]}, {data["service_code"]}, {data["iso_service_restriction"]}, {data["scheme_id"]}, '{data["scheme_name"]}'
+            {data["manual_cash"]}, {data["service_code"]}, {data["sale_freq"]},{data["cash_freq"]}, {data["iso_service_restriction"]}, {data["scheme_id"]}, '{data["scheme_name"]}'
         ) RETURNING id;
     """
 
@@ -225,16 +235,16 @@ def individual_details(data_json, formdata, options, batch):
         cur.close()
         return e
         
-   
+    card_number = data["card_number"]
     data = {"formData" : formdata, "options" : options, "batch": batch}
 
     for i in range(len(data["formData"])):
         insert_1 = f"""
         INSERT into card_account_details
-        (card_id , batch_no, account_no , acc_sys_no, acc_sys_name,
+        (card_id ,card_number, batch_no, account_no , acc_sys_no, acc_sys_name,
         desc_no, acc_name,  iso, currency_code , currency_name)
         values 
-        ({global_account}, {data["batch"]}, '{data["formData"][i]["accountNo"]}', '{data["formData"][i]["accSysNo"]}', '{data["formData"][i]["accSysName"]}',
+        ({global_account}, {card_number}, {data["batch"]}, '{data["formData"][i]["accountNo"]}', '{data["formData"][i]["accSysNo"]}', '{data["formData"][i]["accSysName"]}',
         {data["formData"][i]["descNo"]}, '{data["formData"][i]["accName"]}', '{data["formData"][i]["iso"] }', '{data["formData"][i]["currencyCode"]}', '{data["formData"][i]["currencyName"]}' )
         RETURNING id;
         """
@@ -300,7 +310,7 @@ def individual_details(data_json, formdata, options, batch):
     return True
 
 def get_details(batch, created):
-    
+    DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME = load()
     conn = psycopg2.connect(
         database=DB_NAME,    # Connect to the database defined in .env
         user=DB_USER,      # Username from .env
@@ -349,7 +359,7 @@ def get_details(batch, created):
   
   
 def get_datas():
-    
+    DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME = load()
     conn = psycopg2.connect(
         database=DB_NAME,    # Connect to the database defined in .env
         user=DB_USER,      # Username from .env

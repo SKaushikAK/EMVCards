@@ -7,7 +7,7 @@ import SideBar from "./SideBar";
 import Footer from "./Footer";
 
 // eslint-disable-next-line react/prop-types
-const AddButton2 = ({handleRevert}) => {
+const AddButton2 = ({handleRevert, navigate}) => {
 
 
   const location = useLocation();
@@ -115,13 +115,11 @@ const AddButton2 = ({handleRevert}) => {
       options,
     };
 
-    console.log(payload)
-
     try {
         const response = await axios.post('http://localhost:5000/add_details/extra_details/api', payload);
       // const response = await axios.post('/add_details/api', data);
       alert(response.data.message);
-      // navigate('/add_details/extra_details'); // Navigate to the next page
+      navigate('/'); // Navigate to the next page
     } catch (error) {
         console.error('Error details:', error);
         alert('Error submitting data: ' + (error.response?.data?.error || error.message));

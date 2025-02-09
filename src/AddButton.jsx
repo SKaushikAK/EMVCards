@@ -43,11 +43,11 @@ const AddButton = ({ navigate, handleRevert }) => {
               </label>
               <label>
                 Card Seq No:
-                <input name="card_seq_no" placeholder =  "Eg 1" type="number"  required />
+                <input name="card_seq_no"  placeholder =  "Eg 1" type="number"  required />
               </label>
               <label>
                 Card Number:
-                <input name="card_number" placeholder =  "16 digits"  type="number"  required />
+                <input name="card_number" pattern = ".{16}" placeholder =  "16 digits"  type="number"  required />
               </label>
               <label>
                 Encoded Name:
@@ -168,8 +168,7 @@ const AddButton = ({ navigate, handleRevert }) => {
                 Cash Freq Limit:
                 <input name="cash_freq" type="number" />
               </label>
-
-            </div>
+            </div>x
           </div>
 
           {/* Card Scheme Section */}

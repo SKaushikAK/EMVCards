@@ -55,6 +55,7 @@ def scrap_track (data):
         track2_visa = wait.until(EC.presence_of_element_located(
             (By.ID, "textBoxTrack2v"))).get_attribute("value")
         driver.quit()
+        print("Scrap")
         return track1_visa.strip(), track2_visa.strip()
     except:
         return "TimeOut"

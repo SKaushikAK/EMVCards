@@ -16,7 +16,6 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 # Serve the main React app (index.html)
 @app.route('/')
 def serve():
-    create_database()
     return send_from_directory(app.static_folder, 'index.html')
 
 # Serve static files (JS, CSS, images)
@@ -32,7 +31,7 @@ def static_files():
 # Route to add batch details (placeholder)
 @app.route('/add_details/api', methods=['POST'])
 def add_details():
-
+    
     create_main_table()
     
     data = request.json
@@ -44,8 +43,10 @@ def add_details():
 @app.route('/add_details/extra_details/api', methods=['POST'])
 def extra_detailsI():
     data = request.json
-    print("data", data)
-
+    
+    #creating the databases
+    create_database()
+    
     #create Tables
     create_main_table()
     create_account_details()
@@ -53,14 +54,7 @@ def extra_detailsI():
     # data = request.json
     result = individual_details(data["main_data"], data["formData"], data["options"], data["batch"])
     
-    # return jsonify({"message" : result})
-    # data ["batch"] = data["batch"][-1]
-    # print("Request",request.json)
-    
-    # #insert details
-    # insert_account(data)
-    
-    return jsonify({"message" : result})
+    return jsonify({"message" : "Data Added Successfully"})
 
 @app.route("/api_details", methods = ["GET"])
 def get_details():

@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import './css/HomePage.css';
 import logo from "./assets/cr2.png"
 
 // eslint-disable-next-line react/prop-types
 const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
-
+  const ref = useRef();
 
   const handleNavigate = (what) => {
     if (selectedBatch === "") {
@@ -37,7 +37,7 @@ const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
           </ul>
           <div className="batch-input">
             Batch No:
-            <input type="number" value = {selectedBatch} onChange = {handleBatchChange} className="batch-number" required/>
+            <input type="number" ref = {ref} value = {selectedBatch} onChange = {handleBatchChange} className="batch-number" required/>
           </div>
         </nav>
       </header>
@@ -53,17 +53,17 @@ const HomePage = ({selectedBatch, handleBatchChange, navigate}) => {
         </section>
 
         <section className="features">
-          <div className="feature-card">
+          <div className="feature-card" style = {{"border" : "solid", "borderWidth" : "1px", "borderRadius" : "5px"}}>
             <i className="feature-icon fas fa-rocket"></i>
             <h3 className="feature-title">Fast and Efficient</h3>
             <p className="feature-description">Our services are designed to save you time and effort.</p>
           </div>
-          <div className="feature-card">
+          <div className="feature-card" style = {{"border" : "solid", "borderWidth" : "1px", "borderRadius" : "5px"}}>
             <i className="feature-icon fas fa-shield-alt"></i>
             <h3 className="feature-title">Secure and Reliable</h3>
             <p className="feature-description">Your data is safe with us.</p>
           </div>
-          <div className="feature-card">
+          <div className="feature-card" style = {{"border" : "solid", "borderWidth" : "1px", "borderRadius" : "5px"}}>
             <i className="feature-icon fas fa-users"></i>
             <h3 className="feature-title">Dedicated Support</h3>
             <p className="feature-description">Our team is here to help you every step of the way.</p>
