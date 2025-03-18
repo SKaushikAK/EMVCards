@@ -143,15 +143,15 @@ npm run dev
 ![Dashboard][screenshot1]
 
 ### 2. Add Details View
-![Add Details 1](./screenshots/Add.jpg)
+![Dashboard][screenshot2]
 
-![Add details 2](./screenshots/Add2.jpg)
+![Dashboard][screenshot3]
 
 ### 3. Show Details View    
-![Show](./screenshots/Show.jpg)
+![Dashboard][screenshot4]
 
 ### 4. P3 View
-![Show](./screenshots/P3.jpg)
+![Dashboard][screenshot5]
 
 ---
 
