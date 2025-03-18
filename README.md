@@ -1,6 +1,5 @@
-Here's your `README.md` in the exact format you requested:
 
-```markdown
+
 # 📌 EMV Card Management System
 
 ## 🚀 Project Overview
@@ -127,34 +126,7 @@ npm run dev
 
 ---
 
-## 🔗 API Endpoints
 
-### 🔹 Fetch Cards by Batch & Date
-
-```http
-GET /api/cards?batch_no={batch_no}&created_at={YYYY-MM-DD}
-```
-
-✅ Returns a list of cards for the given batch and date
-
-### 🔹 Fetch Full Card Details
-
-```http
-GET /api/card/{card_id}
-```
-
-✅ Returns **card details, account details, and options**
-
-### 🔹 Update Card Details
-
-```http
-PUT /api/card/{card_id}
-Content-Type: application/json
-```
-
-✅ Updates **card attributes dynamically**
-
----
 
 ## 📷 Screenshots
 
