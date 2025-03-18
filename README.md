@@ -1,4 +1,13 @@
 
+[screenshot1]: https://raw.githubusercontent.com/SKaushikAK/EMVCards/refs/heads/main/screenshots/Main_page.JPG
+
+[screenshot2]: https://raw.githubusercontent.com/SKaushikAK/EMVCards/refs/heads/main/screenshots/Add.JPG
+
+[screenshot3]: https://raw.githubusercontent.com/SKaushikAK/EMVCards/refs/heads/main/screenshots/Add2.JPG
+
+[screenshot4]: https://raw.githubusercontent.com/SKaushikAK/EMVCards/refs/heads/main/screenshots/Show.JPG
+
+[screenshot5]: https://raw.githubusercontent.com/SKaushikAK/EMVCards/refs/heads/main/screenshots/P3.JPG
 
 # 📌 EMV Card Management System
 
@@ -131,14 +140,14 @@ npm run dev
 ## 📷 Screenshots
 
 ### 1. Dashboard View
-![Dashboard](./screenshots/Main_page.jpg)
+![Dashboard][screenshot1]
 
 ### 2. Add Details View
 ![Add Details 1](./screenshots/Add.jpg)
 
 ![Add details 2](./screenshots/Add2.jpg)
 
-### 3. Show Details View
+### 3. Show Details View    
 ![Show](./screenshots/Show.jpg)
 
 ### 4. P3 View
@@ -167,18 +176,7 @@ If you found this useful, please **⭐ star** the repo and contribute!
 ```bash
 git add .
 git commit -m "Initial commit"
-git push origin main
+git push origin branch1
 ```
 
-🔗 [GitHub Repository](https://github.com/your-username/emv-card-management)
 
-```
-
----
-
-### **Next Steps:**
-1️⃣ Replace `"your-username"` with your actual GitHub username.
-2️⃣ Upload this `README.md` to your GitHub repository.
-
-Would you like any other formatting changes? 😊🚀
-```
