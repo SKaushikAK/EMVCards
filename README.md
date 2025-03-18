@@ -130,9 +130,19 @@ npm run dev
 
 ## 📷 Screenshots
 
-| Add Card                                         | Show Details                                         | Update Card                                         |
-| ------------------------------------------------ | ---------------------------------------------------- | --------------------------------------------------- |
-| ![Add Card](https://via.placeholder.com/300x200) | ![Show Details](https://via.placeholder.com/300x200) | ![Update Card](https://via.placeholder.com/300x200) |
+### 1. Dashboard View
+![Dashboard](./screenshots/Main_page.jpg)
+
+### 2. Add Details View
+![Add Details 1](./screenshots/Add.jpg)
+
+![Add details 2](./screenshots/Add2.jpg)
+
+### 3. Show Details View
+![Show](./screenshots/Show.jpg)
+
+### 4. P3 View
+![Show](./screenshots/P3.jpg)
 
 ---
 
